@@ -20,6 +20,9 @@ module.exports = {
       },
       boxShadow: {
         'vibe-lg': '0 10px 30px rgba(2,6,23,0.6)'
+      },
+      ringColor: {
+        accent: 'rgba(124,58,237,0.7)'
       }
     }
   },

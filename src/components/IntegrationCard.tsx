@@ -18,6 +18,7 @@ export default function IntegrationCard({ title, defaultUrl }: { title: string; 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="w-full px-3 py-2 rounded-md bg-white/5 border border-white/6 text-sm"
+          aria-label={`${title} embed URL`}
         />
         <div className="mt-3 flex gap-2">
           <button onClick={() => setUrl(input || defaultUrl)} className="vibe-btn bg-[#0ea5a3] text-black px-3 py-2 rounded-md">Load</button>
