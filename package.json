@@ -18,7 +18,8 @@
     "openai": "*",
     "stripe": "*",
     "nodemailer": "*",
-    "@sendgrid/mail": "*"
+    "@sendgrid/mail": "*",
+    "zod": "*"
   },
   "devDependencies": {
     "typescript": "*",
