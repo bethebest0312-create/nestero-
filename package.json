@@ -1,0 +1,24 @@
+{
+  "name": "nestero-app",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@prisma/client": "*"
+  },
+  "devDependencies": {
+    "typescript": "*",
+    "prisma": "*",
+    "tailwindcss": "*",
+    "postcss": "*",
+    "autoprefixer": "*"
+  }
+}
