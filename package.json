@@ -17,7 +17,8 @@
     "@next-auth/prisma-adapter": "*",
     "openai": "*",
     "stripe": "*",
-    "nodemailer": "*"
+    "nodemailer": "*",
+    "@sendgrid/mail": "*"
   },
   "devDependencies": {
     "typescript": "*",
