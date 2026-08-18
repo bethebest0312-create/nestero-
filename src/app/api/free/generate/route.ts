@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getApiKeyByKey, isWithinQuota, recordUsage } from '@/lib/apikeys'
 import { isRateLimited } from '@/lib/rateLimit'
+import { isRateLimitedRedis } from '@/lib/rateLimitRedis'
 import { z } from 'zod'
 
 const BodySchema = z.object({ prompt: z.string().min(1).max(2000) })
@@ -13,9 +14,13 @@ export async function POST(req: Request) {
   const rec = await getApiKeyByKey(key)
   if (!rec) return NextResponse.json({ ok: false, error: 'invalid_key' }, { status: 401 })
 
-  // rate limit by key (60 reqs/min default)
+  // rate limit by key (60 reqs/min default). Prefer Redis if configured.
   const windowLimit = parseInt(process.env.FREE_API_RATE_LIMIT || '60', 10)
-  if (isRateLimited(rec.key, windowLimit, 60)) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
+  if (process.env.REDIS_URL) {
+    if (await isRateLimitedRedis(rec.key, windowLimit, 60)) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
+  } else {
+    if (isRateLimited(rec.key, windowLimit, 60)) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
+  }
 
   const okQuota = await isWithinQuota(rec)
   if (!okQuota) return NextResponse.json({ ok: false, error: 'quota_exceeded' }, { status: 429 })

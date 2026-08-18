@@ -19,7 +19,8 @@
     "stripe": "*",
     "nodemailer": "*",
     "@sendgrid/mail": "*",
-    "zod": "*"
+    "zod": "*",
+    "ioredis": "*"
   },
   "devDependencies": {
     "typescript": "*",
