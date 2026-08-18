@@ -11,7 +11,7 @@ export default function AdminSubscribersPage() {
   }, [])
   async function load() {
     setLoading(true)
-    const res = await fetch('/api/admin/subscribers', { headers: { 'x-admin-token': `${process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''}` } })
+  const res = await fetch('/api/admin/subscribers')
     if (res.ok) {
       const j = await res.json()
       setSubs(j.subscribers || [])
