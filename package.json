@@ -12,7 +12,11 @@
     "next": "^14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "@prisma/client": "*"
+    "@prisma/client": "*",
+    "next-auth": "*",
+    "@next-auth/prisma-adapter": "*",
+    "openai": "*",
+    "stripe": "*"
   },
   "devDependencies": {
     "typescript": "*",
