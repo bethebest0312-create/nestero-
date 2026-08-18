@@ -16,7 +16,8 @@
     "next-auth": "*",
     "@next-auth/prisma-adapter": "*",
     "openai": "*",
-    "stripe": "*"
+    "stripe": "*",
+    "nodemailer": "*"
   },
   "devDependencies": {
     "typescript": "*",

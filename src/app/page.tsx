@@ -1,3 +1,5 @@
+import SubscribeForm from '@/components/SubscribeForm'
+
 export default function HomePage() {
   return (
     <section className="py-16">
@@ -13,6 +15,10 @@ export default function HomePage() {
         <div className="vibe-panel p-4"> <div className="text-lg font-semibold">AI Studio</div><div className="text-sm text-slate-400 mt-2">Generate content, images and more</div></div>
         <div className="vibe-panel p-4"> <div className="text-lg font-semibold">Site Builder</div><div className="text-sm text-slate-400 mt-2">Drag & drop blocks, publish previews</div></div>
         <div className="vibe-panel p-4"> <div className="text-lg font-semibold">Media Studio</div><div className="text-sm text-slate-400 mt-2">Edit images and videos with external tools</div></div>
+      </div>
+
+      <div className="mt-12">
+        <SubscribeForm />
       </div>
     </section>
   )
