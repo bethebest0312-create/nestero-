@@ -12,4 +12,27 @@ model User {
   email     String  @unique
   name      String?
   createdAt DateTime @default(now())
+  apiKeys   ApiKey[]
+}
+
+model ApiKey {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+  createdAt   DateTime @default(now())
+  revoked     Boolean  @default(false)
+  free        Boolean  @default(true)
+  monthlyQuota Int     @default(1000) // default free quota per month
+  usageCount  Int      @default(0)
+  usageReset  DateTime @default(now())
+  usages      ApiUsage[]
+}
+
+model ApiUsage {
+  id        String   @id @default(cuid())
+  apiKey    ApiKey   @relation(fields: [apiKeyId], references: [id])
+  apiKeyId  String
+  endpoint  String
+  createdAt DateTime @default(now())
 }
