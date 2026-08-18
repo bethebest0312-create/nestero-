@@ -23,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="flex items-center gap-3">
               <a href="/integrations" className="vibe-btn bg-white/5 text-white/90 px-3 py-2 rounded-md">Integrations</a>
               <a href="/dashboard" className="vibe-btn accent-gradient text-white px-3 py-2 rounded-md">Dashboard</a>
+              <a href="/design" className="vibe-btn bg-white/5 text-white/90 px-3 py-2 rounded-md">Design</a>
             </nav>
           </header>
           <ToastProvider>
