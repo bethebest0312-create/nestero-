@@ -1,0 +1,38 @@
+{
+  "name": "nestero-app",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "prepare": "prisma generate",
+    "prisma:deploy": "prisma migrate deploy",
+    "seed": "node prisma/seed.js"
+  },
+  "devDependencies": {
+    "sass": "*"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@prisma/client": "*",
+    "next-auth": "*",
+    "@next-auth/prisma-adapter": "*",
+    "openai": "*",
+    "stripe": "*",
+    "nodemailer": "*",
+    "@sendgrid/mail": "*",
+    "zod": "*",
+    "ioredis": "*"
+  },
+  "devDependencies": {
+    "typescript": "*",
+    "prisma": "*",
+    "tailwindcss": "*",
+    "postcss": "*",
+    "autoprefixer": "*"
+  }
+}

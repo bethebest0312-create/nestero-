@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(cuid())
+  email     String  @unique
+  name      String?
+  role      String  @default("user")
+  createdAt DateTime @default(now())
+  apiKeys   ApiKey[]
+  sites     Site[]
+  sentInvites TeamInvite[]
+}
+
+model ApiKey {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+  createdAt   DateTime @default(now())
+  revoked     Boolean  @default(false)
+  free        Boolean  @default(true)
+  monthlyQuota Int     @default(1000) // default free quota per month
+  usageCount  Int      @default(0)
+  usageReset  DateTime @default(now())
+  usages      ApiUsage[]
+}
+
+model ApiUsage {
+  id        String   @id @default(cuid())
+  apiKey    ApiKey   @relation(fields: [apiKeyId], references: [id])
+  apiKeyId  String
+  endpoint  String
+  createdAt DateTime @default(now())
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  verified  Boolean  @default(false)
+  verifications SubscriberVerification[]
+}
+
+model SubscriberVerification {
+  id           String   @id @default(cuid())
+  token        String   @unique
+  subscriber   Subscriber @relation(fields: [subscriberId], references: [id])
+  subscriberId String
+  createdAt    DateTime @default(now())
+  used         Boolean  @default(false)
+}
+
+model Site {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  html      String   @db.Text
+  metadata  Json?
+  owner     User?    @relation(fields: [ownerId], references: [id])
+  ownerId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamInvite {
+  id        String   @id @default(cuid())
+  email     String
+  role      String   @default("member")
+  token     String   @unique
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  invitedBy User?    @relation(fields: [invitedById], references: [id])
+  invitedById String?
+}
