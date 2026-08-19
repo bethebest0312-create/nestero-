@@ -16,27 +16,26 @@ export async function POST(req: Request) {
       update: { name: name || undefined }
     })
 
-    // Send welcome email if SMTP is configured
-    const host = process.env.SMTP_HOST
-    if (host) {
-      const transporter = nodemailer.createTransport({
-        host: host,
-        port: parseInt(process.env.SMTP_PORT || '587', 10),
-        secure: (process.env.SMTP_SECURE === 'true'),
-        auth: process.env.SMTP_USER ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } : undefined
+    // Create a verification token (double opt-in)
+    const { generateToken } = await import('@/lib/mail')
+    const token = generateToken()
+    await prisma.subscriberVerification.create({ data: { token, subscriberId: rec.id } })
+
+    // Build verification link
+    const site = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    const verifyUrl = `${site}/api/subscribe/verify?token=${token}`
+
+    // Send welcome/verification email via mail helper (SendGrid preferred)
+    try {
+      const { sendMail } = await import('@/lib/mail')
+      await sendMail({
+        to: email,
+        subject: 'Verify your email for Nestero',
+        text: `Hi ${name || ''}\n\nThanks for joining Nestero! Please confirm your email: ${verifyUrl}`,
+        html: `<p>Hi ${name || ''}</p><p>Thanks for joining Nestero! Please confirm your email by clicking <a href="${verifyUrl}">this link</a>.</p>`
       })
-      const from = process.env.MAIL_FROM || 'no-reply@localhost'
-      try {
-        await transporter.sendMail({
-          from,
-          to: email,
-          subject: 'Welcome to Nestero',
-          text: `Thanks for joining Nestero${name ? `, ${name}` : ''}!`,
-          html: `<p>Thanks for joining Nestero${name ? `, ${name}` : ''}!</p><p>We will send updates and offers to this email.</p>`
-        })
-      } catch (err) {
-        console.error('mail send failed', err)
-      }
+    } catch (err) {
+      console.error('mail send failed', err)
     }
 
     return NextResponse.json({ ok: true, id: rec.id })
