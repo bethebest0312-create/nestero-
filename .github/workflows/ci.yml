@@ -12,6 +12,6 @@ jobs:
         with:
           node-version: '18'
       - name: Install
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: Typecheck
         run: npm run typecheck
