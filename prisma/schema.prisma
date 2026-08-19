@@ -14,6 +14,8 @@ model User {
   role      String  @default("user")
   createdAt DateTime @default(now())
   apiKeys   ApiKey[]
+  sites     Site[]
+  sentInvites TeamInvite[]
 }
 
 model ApiKey {
