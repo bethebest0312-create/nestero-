@@ -1,4 +1,4 @@
-import './globals.css'
+import './globals.scss'
 import React from 'react'
 import { ToastProvider } from '@/components/ToastProvider'
 import IconLogo from '@/components/IconLogo'

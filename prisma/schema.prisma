@@ -55,3 +55,26 @@ model SubscriberVerification {
   createdAt    DateTime @default(now())
   used         Boolean  @default(false)
 }
+
+model Site {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  html      String   @db.Text
+  metadata  Json?
+  owner     User?    @relation(fields: [ownerId], references: [id])
+  ownerId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamInvite {
+  id        String   @id @default(cuid())
+  email     String
+  role      String   @default("member")
+  token     String   @unique
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  invitedBy User?    @relation(fields: [invitedById], references: [id])
+  invitedById String?
+}
